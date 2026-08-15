@@ -1,0 +1,75 @@
+:root {
+  --web-shell-safe-top: env(safe-area-inset-top, 0px);
+  --web-shell-safe-right: env(safe-area-inset-right, 0px);
+  --web-shell-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --web-shell-safe-left: env(safe-area-inset-left, 0px);
+  --web-shell-viewport-height: 100vh;
+  --web-shell-stable-viewport-height: 100vh;
+  --web-shell-touch-target: 2.75rem;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --web-shell-stable-viewport-height: 100svh;
+  }
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --web-shell-viewport-height: 100dvh;
+  }
+}
+
+html {
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: var(--web-shell-viewport-height);
+}
+
+web-project-shell:not([mode='inline']) {
+  inset-block-start: max(1rem, var(--web-shell-safe-top)) !important;
+  inset-inline-start: max(1rem, var(--web-shell-safe-left)) !important;
+}
+
+:where(img, picture, video, canvas, svg) {
+  max-inline-size: 100%;
+}
+
+:where([data-web-safe-area]) {
+  padding-block-start: max(
+    var(--web-shell-safe-top),
+    var(--web-shell-safe-area-block-start, 0px)
+  );
+  padding-inline-end: max(
+    var(--web-shell-safe-right),
+    var(--web-shell-safe-area-inline-end, 0px)
+  );
+  padding-block-end: max(
+    var(--web-shell-safe-bottom),
+    var(--web-shell-safe-area-block-end, 0px)
+  );
+  padding-inline-start: max(
+    var(--web-shell-safe-left),
+    var(--web-shell-safe-area-inline-start, 0px)
+  );
+}
+
+:where([data-web-touch-target]) {
+  min-inline-size: var(--web-shell-touch-target);
+  min-block-size: var(--web-shell-touch-target);
+}
+
+:where([data-web-mobile-input]) {
+  font-size: max(1rem, 1em);
+}
+
+:where([data-web-scroll-x]) {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}

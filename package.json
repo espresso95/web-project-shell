@@ -7,6 +7,7 @@
   ],
   "exports": {
     "./v1/base.css": "./dist/v1/base.css",
+    "./v1/mobile.css": "./dist/v1/mobile.css",
     "./v1/project-shell.js": "./dist/v1/project-shell.js"
   },
   "packageManager": "pnpm@11.21.0",
