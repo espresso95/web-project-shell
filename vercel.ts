@@ -2,6 +2,8 @@ import type { VercelConfig } from '@vercel/config/v1';
 
 export const config: VercelConfig = {
   framework: 'vite',
+  ignoreCommand:
+    "git diff HEAD^ HEAD --quiet -- . ':(exclude)**/*.md' ':(exclude).gitignore'",
   outputDirectory: 'dist',
   headers: [
     {
