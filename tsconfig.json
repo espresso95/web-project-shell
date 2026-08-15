@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowImportingTsExtensions": true,
+    "exactOptionalPropertyTypes": true,
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "types": ["node", "vitest/globals"]
+  },
+  "include": [
+    "eslint.config.js",
+    "playwright.config.ts",
+    "src",
+    "tests",
+    "vercel.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}
