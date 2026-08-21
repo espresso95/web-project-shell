@@ -6,6 +6,9 @@
   --web-shell-viewport-height: 100vh;
   --web-shell-stable-viewport-height: 100vh;
   --web-shell-touch-target: 2.75rem;
+  --web-sketch-space: clamp(0.875rem, 2.5vi, 2rem);
+  --web-sketch-gap: clamp(0.75rem, 2vi, 1.5rem);
+  --web-sketch-copy-measure: 32rem;
 }
 
 @supports (height: 100svh) {
@@ -26,7 +29,14 @@ html {
   text-size-adjust: 100%;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
   min-height: var(--web-shell-viewport-height);
 }
 
@@ -60,7 +70,36 @@ web-project-shell:not([mode='inline']) {
 
 :where([data-web-touch-target]) {
   min-inline-size: var(--web-shell-touch-target);
+  min-height: var(--web-shell-touch-target);
   min-block-size: var(--web-shell-touch-target);
+}
+
+:where([data-web-sketch-layout])
+  :where(
+    button,
+    [role='button'],
+    input:not([type='hidden']),
+    select,
+    textarea,
+    summary
+  ) {
+  min-height: var(--web-shell-touch-target);
+  min-block-size: var(--web-shell-touch-target);
+}
+
+:where([data-web-sketch-layout]) select {
+  height: var(--web-shell-touch-target);
+}
+
+:where([data-web-sketch-layout])
+  :where(
+    button,
+    [role='button'],
+    summary,
+    input[type='checkbox'],
+    input[type='radio']
+  ) {
+  min-inline-size: var(--web-shell-touch-target);
 }
 
 :where([data-web-mobile-input]) {
@@ -72,4 +111,101 @@ web-project-shell:not([mode='inline']) {
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   -webkit-overflow-scrolling: touch;
+}
+
+/*
+ * Intrinsic sketch layout
+ *
+ * Full-screen sketches opt in with data-web-sketch-layout. Copy and actions
+ * remain in normal flow, while a canvas or visual backdrop can fill the grid
+ * without participating in collision avoidance. The scroll value is for
+ * content-led experiences whose middle region should grow with its content.
+ */
+:where([data-web-sketch-layout]) {
+  box-sizing: border-box;
+  container-type: inline-size;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  min-block-size: var(--web-shell-stable-viewport-height);
+  block-size: var(--web-shell-viewport-height);
+  gap: var(--web-sketch-gap);
+  padding-block-start: max(var(--web-shell-safe-top), var(--web-sketch-space));
+  padding-inline-end: max(var(--web-shell-safe-right), var(--web-sketch-space));
+  padding-block-end: max(var(--web-shell-safe-bottom), var(--web-sketch-space));
+  padding-inline-start: max(
+    var(--web-shell-safe-left),
+    var(--web-sketch-space)
+  );
+  overflow: hidden;
+  isolation: isolate;
+}
+
+:where([data-web-sketch-layout='scroll']) {
+  grid-template-rows: auto auto auto;
+  block-size: auto;
+  min-block-size: var(--web-shell-viewport-height);
+  overflow: visible;
+}
+
+:where([data-web-sketch-backdrop]) {
+  z-index: -1;
+  grid-area: 1 / 1 / -1 / -1;
+  align-self: stretch;
+  justify-self: stretch;
+  min-inline-size: 0;
+  min-block-size: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+:where([data-web-sketch-header]) {
+  z-index: 1;
+  grid-row: 1;
+  min-inline-size: 0;
+}
+
+:where([data-web-sketch-stage]) {
+  z-index: 1;
+  grid-row: 2;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+:where([data-web-sketch-footer]) {
+  z-index: 2;
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  min-inline-size: 0;
+  gap: var(--web-sketch-gap);
+}
+
+:where([data-web-sketch-copy]) {
+  flex: 1 1 min(100%, var(--web-sketch-copy-measure));
+  min-inline-size: min(100%, 12rem);
+  max-inline-size: var(--web-sketch-copy-measure);
+}
+
+:where([data-web-sketch-actions]) {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: end;
+  min-inline-size: 0;
+  gap: max(0.5rem, calc(var(--web-sketch-gap) * 0.5));
+}
+
+:where([data-web-sketch-actions]) :where(button, a, input, select, summary) {
+  min-block-size: var(--web-shell-touch-target);
+}
+
+:where([data-web-sketch-layout])
+  :where(a, button, input, select, textarea, summary):focus-visible {
+  outline: max(2px, 0.14rem) solid currentColor;
+  outline-offset: 0.2rem;
 }
