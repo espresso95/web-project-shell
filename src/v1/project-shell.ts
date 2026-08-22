@@ -10,8 +10,8 @@ const controlStyles = `
     --project-shell-focus: #151515;
     position: fixed;
     z-index: 2147483647;
-    inset-block-start: 1rem;
-    inset-inline-start: 1rem;
+    inset-block-start: var(--web-shell-control-inset-block-start, 1rem);
+    inset-inline-start: var(--web-shell-control-inset-inline-start, 1rem);
     display: inline-block;
     color: var(--project-shell-text);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -27,10 +27,11 @@ const controlStyles = `
   }
 
   a {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    min-height: 2.5rem;
+    min-block-size: var(--web-shell-control-block-size, 2.75rem);
     padding: 0.7rem 0.85rem;
     border: 1px solid var(--project-shell-border);
     border-radius: 999px;

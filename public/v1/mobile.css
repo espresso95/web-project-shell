@@ -6,6 +6,13 @@
   --web-shell-viewport-height: 100vh;
   --web-shell-stable-viewport-height: 100vh;
   --web-shell-touch-target: 2.75rem;
+  --web-shell-control-block-size: var(--web-shell-touch-target);
+  --web-shell-control-inset-block-start: max(1rem, var(--web-shell-safe-top));
+  --web-shell-control-inset-inline-start: max(1rem, var(--web-shell-safe-left));
+  --web-shell-content-block-start: calc(
+    var(--web-shell-control-inset-block-start) +
+      var(--web-shell-control-block-size) + 1rem
+  );
   --web-sketch-space: clamp(0.875rem, 2.5vi, 2rem);
   --web-sketch-gap: clamp(0.75rem, 2vi, 1.5rem);
   --web-sketch-copy-measure: 32rem;
@@ -41,8 +48,8 @@ body {
 }
 
 web-project-shell:not([mode='inline']) {
-  inset-block-start: max(1rem, var(--web-shell-safe-top)) !important;
-  inset-inline-start: max(1rem, var(--web-shell-safe-left)) !important;
+  inset-block-start: var(--web-shell-control-inset-block-start) !important;
+  inset-inline-start: var(--web-shell-control-inset-inline-start) !important;
 }
 
 :where(img, picture, video, canvas, svg) {

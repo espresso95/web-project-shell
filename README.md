@@ -51,9 +51,15 @@ Projects use the assets independently of their framework:
 
 ```css
 .full-screen-view {
-  min-height: var(--web-shell-viewport-height);
+  min-block-size: var(--web-shell-stable-viewport-height);
+  block-size: var(--web-shell-viewport-height);
 }
 ```
+
+Framed full-screen projects can keep foreground content below the fixed home
+control with `--web-shell-content-block-start`. The value combines the device
+safe area, the shared control size, and the control gap; it does not move
+full-bleed backgrounds or canvases.
 
 ```html
 <header data-web-safe-area></header>

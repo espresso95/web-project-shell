@@ -9,6 +9,14 @@ function getLink(element: HTMLElement): HTMLAnchorElement {
   return link;
 }
 
+function getStyles(element: HTMLElement): string {
+  const styles = element.shadowRoot?.querySelector('style')?.textContent;
+  if (!styles) {
+    throw new Error('Expected the project shell to render its styles');
+  }
+  return styles;
+}
+
 describe('web-project-shell', () => {
   beforeEach(() => {
     document.body.replaceChildren();
@@ -36,5 +44,16 @@ describe('web-project-shell', () => {
     const link = getLink(element);
     expect(link.pathname).toBe('/collection/');
     expect(link.textContent).toContain('Collection');
+  });
+
+  it('uses the shared position and control-size contract', () => {
+    const element = document.createElement('web-project-shell');
+    document.body.append(element);
+
+    const styles = getStyles(element);
+    expect(styles).toContain('--web-shell-control-inset-block-start');
+    expect(styles).toContain('--web-shell-control-inset-inline-start');
+    expect(styles).toContain('box-sizing: border-box');
+    expect(styles).toContain('--web-shell-control-block-size');
   });
 });

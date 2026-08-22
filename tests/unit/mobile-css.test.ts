@@ -29,4 +29,12 @@ describe('the intrinsic sketch layout contract', () => {
     expect(stylesheet).toContain("input:not([type='hidden'])");
     expect(stylesheet).toContain("[role='button']");
   });
+
+  it('publishes deterministic shell clearance and dynamic viewport tokens', () => {
+    expect(stylesheet).toContain('--web-shell-viewport-height: 100dvh');
+    expect(stylesheet).toContain('--web-shell-stable-viewport-height: 100svh');
+    expect(stylesheet).toContain('--web-shell-control-block-size');
+    expect(stylesheet).toContain('--web-shell-control-inset-block-start');
+    expect(stylesheet).toContain('--web-shell-content-block-start');
+  });
 });
